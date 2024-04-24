@@ -18,7 +18,6 @@ import androidx.camera.core.ImageCaptureException
 import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
-import com.example.teste.MainActivity2
 import com.example.teste.databinding.ActivityMainBinding
 import java.text.SimpleDateFormat
 import java.util.Locale

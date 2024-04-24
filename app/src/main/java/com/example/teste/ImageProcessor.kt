@@ -82,18 +82,23 @@ object ImageProcessor {
         return sepiaBitmap
     }
 
-    fun adjustBrightnessContrast(originalBitmap: Bitmap, brightness: Float, contrast: Float): Bitmap {
-        val adjustedBitmap = Bitmap.createBitmap(originalBitmap.width, originalBitmap.height, Bitmap.Config.ARGB_8888)
-        val colorMatrix = ColorMatrix(floatArrayOf(
-            contrast, 0f, 0f, 0f, brightness,
-            0f, contrast, 0f, 0f, brightness,
-            0f, 0f, contrast, 0f, brightness,
-            0f, 0f, 0f, 1f, 0f
-        ))
+    private const val SMOOTHNESS_FACTOR = 0.005f
+
+    fun adjustBrightness(bitmap: Bitmap, brightness: Float): Bitmap {
+        val smoothedBrightness = 1 + (brightness - 1) * SMOOTHNESS_FACTOR
+
+        val colorMatrix = ColorMatrix().apply {
+            setScale(smoothedBrightness, smoothedBrightness, smoothedBrightness, 1f)
+        }
+
         val paint = Paint().apply {
             colorFilter = ColorMatrixColorFilter(colorMatrix)
         }
-        Canvas(adjustedBitmap).drawBitmap(originalBitmap, 0f, 0f, paint)
+
+        val adjustedBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, bitmap.config)
+        val canvas = Canvas(adjustedBitmap)
+        canvas.drawBitmap(bitmap, 0f, 0f, paint)
+
         return adjustedBitmap
     }
 
