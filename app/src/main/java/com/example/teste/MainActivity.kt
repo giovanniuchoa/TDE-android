@@ -78,7 +78,10 @@ class MainActivity : AppCompatActivity() {
                     val msg = "Photo Capture Succeeded: ${output.savedUri}"
                     Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
                     Log.d(TAG, msg)
-                    val intent = Intent(this@MainActivity, MainActivity2::class.java)
+                    val savedUri = output.savedUri ?: return // Verifica se a URI é válida
+                    val intent = Intent(this@MainActivity, MainActivity2::class.java).apply {
+                        putExtra("imageUri", savedUri.toString()) // Passa a URI da imagem como string extra
+                    }
                     startActivity(intent)
 
                 }
