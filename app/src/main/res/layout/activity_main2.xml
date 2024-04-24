@@ -8,7 +8,106 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="180dp"
         android:scaleType="fitCenter" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal">
+
+        <Button
+            android:id="@+id/buttonGrayscale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Grayscale" />
+
+        <Button
+            android:id="@+id/buttonNegative"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Negative" />
+
+        <Button
+            android:id="@+id/buttonSepia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sepia" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Brightness"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_marginBottom="8dp"
+            android:layout_below="@id/imageView"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true" />
+
+        <SeekBar
+            android:id="@+id/seekBarBrightness"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="200"
+            android:progress="100"
+            android:layout_below="@id/imageView"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+     />
+
+        <TextView
+            android:id="@+id/textViewBrightnessValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100%"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_below="@id/seekBarBrightness"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Contrast"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_below="@id/seekBarBrightness"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="16dp" />
+
+        <SeekBar
+            android:id="@+id/seekBarContrast"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="200"
+            android:progress="100"
+            android:layout_below="@id/seekBarBrightness"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+           />
+
+        <TextView
+            android:id="@+id/textViewContrastValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100%"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_below="@id/seekBarContrast"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="8dp" />
+
+        <Button
+            android:id="@+id/buttonEdgeDetection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edge Detection" />
+    </LinearLayout>
 
 </RelativeLayout>
