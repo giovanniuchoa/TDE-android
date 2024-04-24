@@ -102,6 +102,32 @@ object ImageProcessor {
         return adjustedBitmap
     }
 
+    fun adjustContrast(bitmap: Bitmap, contrast: Float): Bitmap {
+        val smoothedContrast = 1 + (contrast - 1) * SMOOTHNESS_FACTOR
+
+        val colorMatrix = ColorMatrix().apply {
+            val scale = smoothedContrast
+            val translate = (1 - scale) / 2
+            set(floatArrayOf(
+                scale, 0f, 0f, 0f, translate,
+                0f, scale, 0f, 0f, translate,
+                0f, 0f, scale, 0f, translate,
+                0f, 0f, 0f, 1f, 0f
+            ))
+        }
+
+        val paint = Paint().apply {
+            colorFilter = ColorMatrixColorFilter(colorMatrix)
+        }
+
+        val adjustedBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, bitmap.config)
+        val canvas = Canvas(adjustedBitmap)
+        canvas.drawBitmap(bitmap, 0f, 0f, paint)
+
+        return adjustedBitmap
+    }
+
+
     fun detectEdges(originalBitmap: Bitmap): Bitmap {
         val grayscaleBitmap = applyGrayscale(originalBitmap)
         val sobelBitmap = Bitmap.createBitmap(grayscaleBitmap.width, grayscaleBitmap.height, Bitmap.Config.ARGB_8888)

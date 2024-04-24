@@ -51,6 +51,9 @@ class MainActivity2 : AppCompatActivity() {
 
         val seekBarBrightness = findViewById<SeekBar>(R.id.seekBarBrightness)
         val textViewBrightnessValue = findViewById<TextView>(R.id.textViewBrightnessValue)
+        val seekBarContrast = findViewById<SeekBar>(R.id.seekBarContrast)
+        val textViewContrastValue = findViewById<TextView>(R.id.textViewContrastValue)
+
 
         seekBarBrightness.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -59,6 +62,20 @@ class MainActivity2 : AppCompatActivity() {
 
                 imageView.setImageBitmap(adjustedBitmap)
                 textViewBrightnessValue.text = "$progress%"
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
+        seekBarContrast.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                val contrast = progress - 100 // Ajusta a faixa de -100 a 100
+                val adjustedBitmap = ImageProcessor.adjustContrast(originalBitmap, contrast.toFloat())
+
+                imageView.setImageBitmap(adjustedBitmap)
+                textViewContrastValue.text = "$progress%"
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}

@@ -79,9 +79,6 @@
             android:layout_height="wrap_content"
             android:text="Contrast"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_below="@id/seekBarBrightness"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
             android:layout_marginTop="16dp" />
 
         <SeekBar
@@ -89,13 +86,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:max="200"
-            android:progress="100"
-            android:layout_below="@id/seekBarBrightness"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-           />
+            android:progress="100" />
+
+        <TextView
+            android:id="@+id/textViewContrastValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100%"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_marginTop="8dp" />
 
 
 
