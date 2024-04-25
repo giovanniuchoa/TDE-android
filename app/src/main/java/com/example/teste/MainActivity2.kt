@@ -1,5 +1,6 @@
 package com.example.teste
 
+import android.content.ContentValues
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
@@ -8,11 +9,18 @@ import android.graphics.ColorMatrixColorFilter
 import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.drawable.toBitmap
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 
 class MainActivity2 : AppCompatActivity() {
     private lateinit var imageView: ImageView
@@ -88,6 +96,48 @@ class MainActivity2 : AppCompatActivity() {
         findViewById<Button>(R.id.buttonEdgeDetection).setOnClickListener {
             val edgeDetectedBitmap = ImageProcessor.detectEdges(originalBitmap)
             imageView.setImageBitmap(edgeDetectedBitmap)
+        }
+
+        findViewById<Button>(R.id.buttonSave).setOnClickListener {
+            saveImage()
+        }
+
+    }
+
+    private fun saveImage() {
+        // Verifique se a imagem está disponível
+        if (imageView.drawable == null) {
+            Toast.makeText(this, "Não há imagem para salvar", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Obtenha o bitmap editado
+        val editedBitmap = (imageView.drawable).toBitmap()
+
+        // Adicione a imagem à galeria usando o MediaStore
+        val contentValues = ContentValues().apply {
+            put(MediaStore.Images.Media.DISPLAY_NAME, "edited_image.jpg")
+            put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+            put(MediaStore.Images.Media.WIDTH, editedBitmap.width)
+            put(MediaStore.Images.Media.HEIGHT, editedBitmap.height)
+        }
+
+        val resolver = contentResolver
+        val uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+
+        try {
+            uri?.let {
+                resolver.openOutputStream(uri)?.use { outputStream ->
+                    editedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+                }
+
+                Toast.makeText(this, "Imagem salva com sucesso", Toast.LENGTH_SHORT).show()
+            } ?: run {
+                Toast.makeText(this, "Falha ao salvar a imagem", Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(this, "Erro ao salvar a imagem", Toast.LENGTH_SHORT).show()
         }
     }
 }

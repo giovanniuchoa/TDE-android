@@ -128,11 +128,24 @@ object ImageProcessor {
     }
 
 
-    fun detectEdges(originalBitmap: Bitmap): Bitmap {
-        val grayscaleBitmap = applyGrayscale(originalBitmap)
-        val sobelBitmap = Bitmap.createBitmap(grayscaleBitmap.width, grayscaleBitmap.height, Bitmap.Config.ARGB_8888)
+    fun detectEdges(bitmap: Bitmap): Bitmap {
+        val edgeDetectedBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
 
-        return sobelBitmap
+        val matrix = floatArrayOf(
+            -1f, -1f, -1f,
+            -1f, 8f, -1f,
+            -1f, -1f, -1f
+        )
+
+        val colorMatrix = ColorMatrix(matrix)
+        val paint = Paint().apply {
+            colorFilter = ColorMatrixColorFilter(colorMatrix)
+        }
+
+        val canvas = Canvas(edgeDetectedBitmap)
+        canvas.drawBitmap(bitmap, 0f, 0f, paint)
+
+        return edgeDetectedBitmap
     }
 
 
