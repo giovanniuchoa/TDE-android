@@ -98,6 +98,7 @@ class MainActivity2 : AppCompatActivity() {
             imageView.setImageBitmap(edgeDetectedBitmap)
         }
 
+
         findViewById<Button>(R.id.buttonSave).setOnClickListener {
             saveImage()
         }
