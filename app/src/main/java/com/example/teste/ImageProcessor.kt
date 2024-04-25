@@ -129,23 +129,38 @@ object ImageProcessor {
 
 
     fun detectEdges(bitmap: Bitmap): Bitmap {
-        val edgeDetectedBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
+        val width = bitmap.width
+        val height = bitmap.height
+        val resultBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
 
-        val matrix = floatArrayOf(
-            -1f, -1f, -1f,
-            -1f, 8f, -1f,
-            -1f, -1f, -1f
-        )
+        val grayBitmap = applyGrayscale(bitmap)
 
-        val colorMatrix = ColorMatrix(matrix)
-        val paint = Paint().apply {
-            colorFilter = ColorMatrixColorFilter(colorMatrix)
+        for (x in 1 until width - 1) {
+            for (y in 1 until height - 1) {
+                val gx = (
+                        -grayBitmap.getPixel(x - 1, y - 1) - 2 * grayBitmap.getPixel(x - 1, y) - grayBitmap.getPixel(
+                            x - 1,
+                            y + 1
+                        ) + grayBitmap.getPixel(x + 1, y - 1) + 2 * grayBitmap.getPixel(x + 1, y) + grayBitmap.getPixel(
+                            x + 1,
+                            y + 1
+                        )
+                        )
+                val gy = (
+                        -grayBitmap.getPixel(x - 1, y - 1) - 2 * grayBitmap.getPixel(x, y - 1) - grayBitmap.getPixel(
+                            x + 1,
+                            y - 1
+                        ) + grayBitmap.getPixel(x - 1, y + 1) + 2 * grayBitmap.getPixel(x, y + 1) + grayBitmap.getPixel(
+                            x + 1,
+                            y + 1
+                        )
+                        )
+                val gradientMagnitude = Math.sqrt((gx * gx + gy * gy).toDouble()).toInt()
+                val pixel = Color.rgb(gradientMagnitude, gradientMagnitude, gradientMagnitude)
+                resultBitmap.setPixel(x, y, pixel)
+            }
         }
-
-        val canvas = Canvas(edgeDetectedBitmap)
-        canvas.drawBitmap(bitmap, 0f, 0f, paint)
-
-        return edgeDetectedBitmap
+        return resultBitmap
     }
 
 
