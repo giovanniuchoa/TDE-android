@@ -1,16 +1,20 @@
 package com.example.teste
 
 import android.content.ContentValues
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
+import android.graphics.Matrix
 import android.graphics.Paint
+import android.media.ExifInterface
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.SeekBar
@@ -102,7 +106,17 @@ class MainActivity2 : AppCompatActivity() {
         findViewById<Button>(R.id.buttonSave).setOnClickListener {
             saveImage()
         }
+        findViewById<Button>(R.id.buttonBack).setOnClickListener {
+            goToMainActivity()
+        }
 
+    }
+
+
+    fun goToMainActivity() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish() // Opcional, se você quiser fechar esta activity após ir para a MainActivity
     }
 
     private fun saveImage() {
